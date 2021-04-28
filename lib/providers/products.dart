@@ -67,9 +67,9 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct(Product product) {
-    const url = 'https://fcoursefb-default-rtdb.firebaseio.com/products.json';
-    http
+  Future<void> addProduct(Product product) {
+    const url = 'https://fc4yell8er-default-rtdb.europe-west1.firebasedatabase.app/products.json';
+     return http
         .post(
       url,
       body: json.encode({

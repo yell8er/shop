@@ -68,8 +68,9 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> addProduct(Product product) {
-    const url = 'https://fc4yell8er-default-rtdb.europe-west1.firebasedatabase.app/products.json';
-     return http
+    const url =
+        'https://fc4yell8er-default-rtdb.europe-west1.firebasedatabase.app/products.json';
+    return http
         .post(
       url,
       body: json.encode({
@@ -91,6 +92,9 @@ class Products with ChangeNotifier {
       );
       _items.add(newProduct);
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 

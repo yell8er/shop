@@ -134,6 +134,7 @@ class Products with ChangeNotifier {
             'description': newProduct.description,
             'imageUrl': newProduct.imageUrl,
             'price': newProduct.price,
+            // 'isFavorite': newProduct.isFavorite,
           }));
       _items[prodIndex] = newProduct;
       notifyListeners();

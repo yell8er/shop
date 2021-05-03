@@ -24,6 +24,35 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetschAndSetOrders() async {
+    const url =
+        'https://fc4yell8er-default-rtdb.europe-west1.firebasedatabase.app/orders.json';
+    final response = await http.get(url);
+    final List<OrderItem> loadedOrders = [];
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractedData == null) {
+      return;
+    }
+    extractedData.forEach((orderId, orderData) {
+      loadedOrders.add(
+        OrderItem(
+          id: orderId,
+          amount: orderData['amount'],
+          dateTime: DateTime.parse(orderData['dateTime']),
+          products: (orderData['products'] as List<dynamic>)
+              .map((item) => CartItem(
+                  id: item['id'],
+                  title: item['title'],
+                  quantity: item['quantity'],
+                  price: item['price']))
+              .toList(),
+        ),
+      );
+    });
+    _orders = loadedOrders.reversed.toList();
+    notifyListeners();
+  }
+
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     const url =
         'https://fc4yell8er-default-rtdb.europe-west1.firebasedatabase.app/orders.json';
@@ -33,16 +62,14 @@ class Orders with ChangeNotifier {
       body: json.encode({
         'amount': total,
         'dateTime': timestamp.toIso8601String(),
-        'products': [
-          cartProducts
-              .map((cp) => {
-                    'id': cp.id,
-                    'title': cp.title,
-                    'quantity': cp.quantity,
-                    'price': cp.price,
-                  })
-              .toList(),
-        ]
+        'products': cartProducts
+            .map((cp) => {
+                  'id': cp.id,
+                  'title': cp.title,
+                  'quantity': cp.quantity,
+                  'price': cp.price,
+                })
+            .toList(),
       }),
     );
     _orders.insert(

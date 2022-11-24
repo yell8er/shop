@@ -43,8 +43,8 @@ class AuthScreen extends StatelessWidget {
                   Flexible(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 94.0),
                       transform: Matrix4.rotationZ(-8 * pi / 180)
                         ..translate(-10.0),
                       // ..translate(-10.0),
@@ -62,7 +62,14 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'MyShop',
                         style: TextStyle(
-                          color: Theme.of(context).accentTextTheme.title.color,
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary)
+                              .color,
                           fontSize: 50,
                           fontFamily: 'Anton',
                           fontWeight: FontWeight.normal,
@@ -117,7 +124,8 @@ class _AuthCardState extends State<AuthCard>
       ),
     );
     _slideAnimation =
-        Tween<Offset>(begin: Offset(0, -1.5), end: Offset(0, 0)).animate(
+        Tween<Offset>(begin: Offset(0, -1.5), end: Offset(0, 0))
+            .animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.fastOutSlowIn,
@@ -261,8 +269,10 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 AnimatedContainer(
                   constraints: BoxConstraints(
-                      minHeight: _authMode == AuthMode.Signup ? 60 : 0,
-                      maxHeight: _authMode == AuthMode.Signup ? 120 : 0),
+                      minHeight:
+                          _authMode == AuthMode.Signup ? 60 : 0,
+                      maxHeight:
+                          _authMode == AuthMode.Signup ? 120 : 0),
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeIn,
                   child: FadeTransition(
@@ -271,12 +281,13 @@ class _AuthCardState extends State<AuthCard>
                       position: _slideAnimation,
                       child: TextFormField(
                         enabled: _authMode == AuthMode.Signup,
-                        decoration:
-                            InputDecoration(labelText: 'Confirm Password'),
+                        decoration: InputDecoration(
+                            labelText: 'Confirm Password'),
                         obscureText: true,
                         validator: _authMode == AuthMode.Signup
                             ? (value) {
-                                if (value != _passwordController.text) {
+                                if (value !=
+                                    _passwordController.text) {
                                   return 'Passwords do not match!';
                                 }
                               }
@@ -291,25 +302,37 @@ class _AuthCardState extends State<AuthCard>
                 if (_isLoading)
                   CircularProgressIndicator()
                 else
-                  RaisedButton(
-                    child:
-                        Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
+                  ElevatedButton(
+                    child: Text(_authMode == AuthMode.Login
+                        ? 'LOGIN'
+                        : 'SIGN UP'),
                     onPressed: _submit,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 8.0),
+                      backgroundColor: Theme.of(context).primaryColor,
+                      textStyle: TextStyle(
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            .color,
+                      ),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
-                FlatButton(
+                ElevatedButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                   onPressed: _switchAuthMode,
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 4),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    textStyle: TextStyle(
+                        color: Theme.of(context).primaryColor),
+                  ),
                 ),
               ],
             ),

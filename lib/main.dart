@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
             update: (ctx, auth, previousProducts) => Products(
                 auth.token,
                 auth.userId,
-                previousProducts == null ? [] : previousProducts.items),
+                previousProducts == null
+                    ? []
+                    : previousProducts.items),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'MyShop',
             theme: ThemeData(
                 primarySwatch: Colors.purple,
@@ -63,11 +66,14 @@ class MyApp extends StatelessWidget {
                             : AuthScreen(),
                   ),
             routes: {
-              ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+              ProductDetailScreen.routeName: (ctx) =>
+                  ProductDetailScreen(),
               CartScreen.routeName: (ctx) => CartScreen(),
               OrdersScreen.rountName: (ctx) => OrdersScreen(),
-              UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
-              EditProductScreen.routeName: (ctx) => EditProductScreen(),
+              UserProductsScreen.routeName: (ctx) =>
+                  UserProductsScreen(),
+              EditProductScreen.routeName: (ctx) =>
+                  EditProductScreen(),
             },
           ),
         ));

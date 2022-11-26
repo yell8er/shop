@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'MyShop',
             theme: ThemeData(
-                primarySwatch: Colors.purple,
+                primarySwatch: Colors.red,
                 accentColor: Colors.deepOrange,
                 fontFamily: 'Lato',
                 pageTransitionsTheme: PageTransitionsTheme(builders: {

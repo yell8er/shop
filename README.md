@@ -1,2 +1,2 @@
-Simple shop example
+Simple shop example,
 Firebase Realtime Databese as backend used
